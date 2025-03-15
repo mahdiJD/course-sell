@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('file')->nullable();
-            $table->string('company')->nullable();
+            $table->string('status')->default(Status::InProgres->value);
+            $table->dateTime('published_at')->nullable();
             $table->string('description')->nullable();
             $table->string('bio')->nullable();
             $table->integer('price');

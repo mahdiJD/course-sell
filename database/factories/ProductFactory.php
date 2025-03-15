@@ -17,22 +17,27 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $company = [
-            'Rolex',
-            'Richard Mille',
-            'Patek Philippe',
-            'Grand Seiko',
-            'Breguet',
+        $lang = [
+            'php',
+            'js',
+            'python',
+            'java',
+            'css',
+            'html',
+            'bash',
+            'linux',
+            'laravel',
+            'wordpres',
         ];
         $description = self::randomSentence(rand(6,16));
         $bio = self::randomSentence(rand(2,5));
-        $name = fake()->name();
+        $name = $lang[array_rand($lang)];
         $user = User::count();
         return [
             'name' => $name,
-            'slug' => 'watch' . str_replace(' ','_',$name),
-            'company' => array_rand($company),
+            'slug' => 'دوره اموزشی' . $name . rand(1,100),
             'description' => $description,
+            'published_at' => date('m/d/y,h:m:sa'),
             'bio' => $bio,
             'price' => rand(500,1_000_000),
             'user_id' => $user && rand(1,3) > 2 ? User::find(rand(1,$user)) : User::factory(),

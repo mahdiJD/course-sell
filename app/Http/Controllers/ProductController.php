@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Livewire\Front\CourseDetaile;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -35,9 +36,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $product, $id)
     {
-        dd($product);
+        return CourseDetaile::render();
     }
 
     /**
