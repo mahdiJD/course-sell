@@ -26,4 +26,12 @@ class Product extends Model
             'status' => Status::class,
         ];
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function discount()
+    {
+        return $this->hasMany(Discount::class);
+    }
 }
