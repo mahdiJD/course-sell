@@ -15,6 +15,39 @@
 	<link rel="stylesheet" type="text/css" href='{{asset("front/assets/vendor/glightbox/css/glightbox.css")}}'>
 	<link rel="stylesheet" type="text/css" href='{{asset("front/assets/css/style-rtl.css")}}'>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .checkout-container {
+            max-width: 700px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
+        .form-control {
+            border-radius: 8px;
+        }
+        .btn-primary {
+            background-color: #066ac9;
+            border: none;
+            border-radius: 8px;
+            transition: 0.3s;
+            padding: 12px;
+            font-size: 18px;
+        }
+        .btn-primary:hover {
+            background-color: #0559a6;
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 22px;
+        }
+    </style>
+    
     @livewireStyles
 </head>
 
@@ -33,6 +66,7 @@
     <script src="{{asset('front/assets/vendor/purecounterjs/dist/purecounter_vanilla.js')}}"></script>
     <script src="{{asset('front/assets/js/functions.js')}}"></script>
     <script src="https://files-de.rtl-theme.com/jsdemos/79df7d11747f944da7628dfc1c76f709661cfe8f.js?pid=257550"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

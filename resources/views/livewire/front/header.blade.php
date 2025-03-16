@@ -64,6 +64,9 @@
                             @empty
                                 <p class="text-gray-500">سبد خرید شما خالی است.</p>
                             @endforelse
+                            @if (!empty($cartItems))
+                            <a href="{{route('order')}}" class="btn btn-secondary">رفتن به تصفیه حساب</a>
+                            @endif
                         </div>
                     @endif
                 </div>
