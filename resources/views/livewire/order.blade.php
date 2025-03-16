@@ -88,7 +88,7 @@
         <div class="course-box1">
             <label>کد تخفیف را وارد کنید</label>
             <input type="text" name="discount" wire:model="discount">
-            <button class="btn btn-blue-soft" wire:click='calculate'> تست کد</button>
+            <button class="btn btn-blue-soft" wire:click='calculate()'> تست کد</button>
         </div>
         <div class="course-box1">
             <h4>بعد از تخفیف</h4>

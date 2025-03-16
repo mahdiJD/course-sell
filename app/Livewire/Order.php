@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Cart;
+use App\Models\Discount;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -20,7 +21,7 @@ class Order extends Component
         $this->price_after = $this->price_bifore;
     }
     public function calculate() : void {
-        
+        $result = Discount::where('code',$this->discount)->get();
     }
     #[Layout('front.master')]
     public function render()

@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('discounts', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
             $table->string('code');
-            $table->foreignId('product_id');
+            // $table->foreignId('product_id');
             $table->integer('discount');
+            $table->integer('count');
+            $table->boolean('status')->default('true');
             $table->timestamps();
         });
     }
