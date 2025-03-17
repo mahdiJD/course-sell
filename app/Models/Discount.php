@@ -6,12 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Discount extends Model
 {
-    protected $primaryKey = 'code';
+    // protected $primaryKey = 'code';
+    protected $casts = [
+        'status' => 'boolean',
+    ];
     protected $fillable = [
         'code',
         'discount',
         'count',
         'status',
+        'user_id',
     ];
     public function product()
     {

@@ -6,9 +6,13 @@ use App\Filament\Resources\DiscountResource\Pages;
 use App\Filament\Resources\DiscountResource\RelationManagers;
 use App\Models\Discount;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +27,22 @@ class DiscountResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('code')->required()
+                    ->label('کد تخفیف'),
+                TextInput::make('count')
+                    ->step('1')
+                    ->numeric()
+                    ->required(),
+                TextInput::make('discount')
+                    ->label('درصد تخفیف')
+                    ->step(1)
+                    ->minValue(1)
+                    ->maxValue(100)
+                    ->required()
+                    ->numeric()
+                    ->minValue('1'),
+                Checkbox::make('status')->label('فعال'),
+
             ]);
     }
 
@@ -31,7 +50,9 @@ class DiscountResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('code'),
+                TextColumn::make('count'),
+                TextColumn::make('discount'),
             ])
             ->filters([
                 //
