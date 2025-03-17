@@ -1,46 +1,4 @@
 
-{{-- <div class="container d-flex ">
-    <div class="checkout-container">
-        <h2 class="text-center card-title mb-4">تصفیه حساب</h2>
-        <form>
-            <div class="mb-3">
-                <label class="form-label">نام و نام خانوادگی</label>
-                <input type="text" class="form-control" placeholder="نام خود را وارد کنید">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">ایمیل</label>
-                <input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">آدرس</label>
-                <textarea class="form-control" rows="3" placeholder="آدرس خود را وارد کنید"></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">روش پرداخت</label>
-                <select class="form-select">
-                    <option>کارت اعتباری</option>
-                    <option>پی پال</option>
-                    <option>انتقال بانکی</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">پرداخت و تکمیل خرید</button>
-        </form>
-    </div>
-    <div class="container">
-        <figure class="figure">
-            <img src="..." class="img-thumbnail" alt="...">
-            <figcaption class="figure-caption">A caption for the above image.</figcaption>
-          </figure>
-    </div>
-</div> --}}
-
-{{-- <div class="container">
-    <div class="col">
-        df
-    </div>
-
-</div> --}}
-
 <main class="container">
 
     <style>
@@ -78,7 +36,15 @@
             clear: both;
         }
     </style>
-
+    @if ($myAlert)
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+          An example danger alert with an icon
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" wire:click=''></button>
+      </div>
+    @endif
     <div class="sidebar1 ">
         <h3>تصفیه حساب</h3>
         <div class="course-box1">
@@ -111,6 +77,7 @@
         </div>
     </div>
     <div class="clr"></div>
+    <a href="#" >رفتن به درگاه پرداخت</a>
 
 <main>
 

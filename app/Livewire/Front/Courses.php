@@ -14,6 +14,9 @@ class Courses extends Component
     protected $paginationTheme = 'bootstrap';
     public $search ;
     public function addCart($coursId){
+        if(!auth()->check()){
+            return redirect(route('home'));//TODO to login page
+        }
         $item = Cart::get()
             ->where('product_id','=',$coursId)
             ->where('user_id','=', auth()->id())->first();
