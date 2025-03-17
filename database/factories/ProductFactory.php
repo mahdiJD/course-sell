@@ -39,6 +39,7 @@ class ProductFactory extends Factory
             'description' => $description,
             'published_at' => date('m/d/y,h:m:sa'),
             'bio' => $bio,
+            'file' => 'form-attachments/'.rand(1,13).'.jpg',
             'price' => rand(500,1_000_000),
             'user_id' => $user && rand(1,3) > 2 ? User::find(rand(1,$user)) : User::factory(),
         ];
