@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Status;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Livewire\Front\CourseDetaile;
 use App\Livewire\Front\Courses;
@@ -18,5 +19,7 @@ Route::get('/courses_detaile/{product:slug}',CourseDetaile::class)->name('course
 Route::get('/check-out',Order::class)->name('order');
 Route::get('/tst',function(){
     // dd(Cart::find(1)->product()->get()->first()->name);
-    dd(auth()->check());
+    dd(route('pay_api'));
 });
+Route::post('/invoce',[OrderController::class,'payment'])->name('invoce');
+Route::post('/callback',[OrderController::class,'callBack'])->name('pay_back');

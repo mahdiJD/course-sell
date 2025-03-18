@@ -46,6 +46,7 @@
       </div>
     @endif
     <div class="sidebar1 ">
+
         <h3>تصفیه حساب</h3>
         <div class="course-box1">
             <h4>مبلغ کل</h4>
@@ -60,6 +61,12 @@
             <h4>بعد از تخفیف</h4>
             <p>{{$price_after}}</p>
         </div>
+        <form action="{{route('invoce')}}" method="POST">
+            @csrf
+            <input type="hidden" name="request_discount" wire:model="discount" value="{{$discount}}">
+            <button type="submit" class="btn btn-primary" >رفتن به درگاه پرداخت</button>
+        </form>
+
     </div>
 
     <div class="main-content1">
@@ -77,7 +84,6 @@
         </div>
     </div>
     <div class="clr"></div>
-    <a href="#" >رفتن به درگاه پرداخت</a>
 
 <main>
 

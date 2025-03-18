@@ -26,7 +26,7 @@ class Order extends Component
     }
     public function calculate() : void {
         $result = Discount::where('code',$this->discount)->get()->first();
-        if($result && $result->status ){
+        if($result && $result->status && $result->count < 0 ){
             $this->price_after = $this->price_bifore - $this->price_bifore * $result->discount / 100;
         }else{
             $this->price_after = $this->price_bifore ;
