@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Role;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -25,7 +28,35 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name'),
+                TextInput::make('bio'),
+                TextInput::make('email')
+                    ->email()
+                    ->unique(ignoreRecord: true),
+                Select::make('role')->options(function(){
+                    $permision = in_array(
+                        User::find(auth()->id())->role,
+                        [
+                            Role::Editor->value,
+                            Role::Root->value,
+                        ]
+                        );
+                    if($permision){
+                        $result = [
+                            Role::Teacher->value => 'مدرس',
+                            Role::Student->value => 'دانشجو',
+                        ];
+                        if(auth()->user()->role == Role::Root->value){
+                            $result += [
+                                Role::Root->value => 'مدیر',
+                                Role::Editor->value => 'ویرایشگر',
+                            ];
+                        }
+                        return $result;
+                    }
+                    return null;
+
+                })
             ]);
     }
 
@@ -35,11 +66,6 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('email')
-                    ->email()
-                    ->unique(ignoreRecord: true),
-                FileUpload::make('file')
-                    ->disk('public')
-                    ->directory('user-profile'),
 
             ])
             ->filters([

@@ -27,9 +27,6 @@ Route::post('/callback',[OrderController::class,'callBack'])->name('pay_back');
 Route::get('/panel/login',function(){return redirect(route('login'));})->name('filament.panel.auth.login');
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return redirect(route('filament.panel.pages.dashboard'));
