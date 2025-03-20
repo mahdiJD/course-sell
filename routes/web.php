@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Enums\Status;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -23,3 +24,21 @@ Route::get('/tst',function(){
 });
 Route::post('/invoce',[OrderController::class,'payment'])->name('invoce');
 Route::post('/callback',[OrderController::class,'callBack'])->name('pay_back');
+Route::get('/panel/login',function(){return redirect(route('login'));})->name('filament.panel.auth.login');
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return redirect(route('filament.panel.pages.dashboard'));
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
