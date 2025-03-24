@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Shetabit\Multipay\Invoice;
 use Shetabit\Multipay\Payment;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
+use Spatie\Permission\Models\Permission;
 
 class OrderController extends Controller
 {
@@ -73,6 +74,7 @@ class OrderController extends Controller
             )->first()->update([
                 'payment_status' => true,
             ]);
+            $permission = Permission::create([auth()->id() => 'read']);
             return redirect(route('filament.panel.pages.dashboard'));
         }
 

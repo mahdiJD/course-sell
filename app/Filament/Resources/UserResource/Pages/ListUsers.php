@@ -20,13 +20,26 @@ class ListUsers extends ListRecords
     }
     protected function authorizeAccess(): void
     {
-        abort_unless(
-            in_array(
+        // abort_unless(
+        //     in_array(
+        //         User::find(auth()->id())->role,
+        //         [
+        //             Role::Editor->value,
+        //             Role::Root->value,
+        //         ]
+        //     ), 403);
+        if(
+            !in_array(
                 User::find(auth()->id())->role,
                 [
                     Role::Editor->value,
                     Role::Root->value,
                 ]
-            ), 403);
+            )
+        ){
+            redirect(route('filament.panel.resources.users.edit',[
+                auth()->id()
+            ]));
+        }
     }
 }

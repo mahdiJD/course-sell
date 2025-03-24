@@ -23,7 +23,18 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'پروفایل کاربری';
 
+    public static function getNavigationLabel(): string
+    {
+        return in_array(
+            User::find(auth()->id())->role,
+            [
+                Role::Editor->value,
+                Role::Root->value,
+            ]
+        ) ? 'لیست کاربران' : static::$navigationLabel;
+    }
     public static function form(Form $form): Form
     {
         return $form

@@ -14,9 +14,17 @@ class EditUser extends EditRecord
 
     protected function getHeaderActions(): array
     {
-        return [
+        $result = [];
+        in_array(
+            User::find(auth()->id())->role,
+            [
+                Role::Editor->value,
+                Role::Root->value,
+            ]
+        ) ? $result += [
             Actions\DeleteAction::make(),
-        ];
+        ] : [];
+        return $result;
     }
     protected function authorizeAccess(): void
     {
@@ -28,5 +36,16 @@ class EditUser extends EditRecord
                     Role::Root->value,
                 ]
             ), 403);
+    }
+    public function mount(int | string $record): void
+    {
+        $this->record = $this->resolveRecord($record);
+
+        if( !($record==auth()->id()) ){
+            $this->authorizeAccess();
+        }
+
+        $this->fillForm();
+        $this->previousUrl = url()->previous();
     }
 }
