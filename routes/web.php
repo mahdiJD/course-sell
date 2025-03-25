@@ -19,8 +19,12 @@ Route::get('/courses_detaile/{product:slug}',CourseDetaile::class)->name('course
 // Route::get('products',ProductComponent::class);
 Route::get('/check-out',Order::class)->name('order');
 Route::get('/tst',function(){
-    // dd(Cart::find(1)->product()->get()->first()->name);
-    dd(route('pay_api'));
+    dd(Cart::find(1)->product()->get()->first()->name);
+    // dd(route('pay_api'));
+    // $cart = Cart::where('user_id',auth()->id())->product()->get();
+            // foreach($cart as $orderItem){
+                // dd($cart);
+            // }
 });
 Route::post('/invoce',[OrderController::class,'payment'])->name('invoce');
 Route::post('/callback',[OrderController::class,'callBack'])->name('pay_back');

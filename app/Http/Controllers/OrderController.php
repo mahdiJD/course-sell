@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Discount;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -74,7 +75,22 @@ class OrderController extends Controller
             )->first()->update([
                 'payment_status' => true,
             ]);
-            $permission = Permission::create([auth()->id() => 'read']);
+            $order = Order::where(
+                'transactionId' , $request->transactionId
+            )->first();
+            $cart = Cart::where('user_id',auth()->id())->get();
+            // Cart::find(1)->product()->get()->first()->name;
+            foreach($cart as $orderItem){
+                // dd($orderItem);
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $orderItem->product_id,
+                    'user_id' => $orderItem->user_id,
+                    // 'price' => $orderItem->product()->price,
+                ]);
+                $orderItem->delete();
+
+            }
             return redirect(route('filament.panel.pages.dashboard'));
         }
 

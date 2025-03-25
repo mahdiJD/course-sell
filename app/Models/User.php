@@ -52,6 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
     public function discount()
     {
         return $this->hasMany(Discount::class);
@@ -63,5 +67,18 @@ class User extends Authenticatable
     public function cart()
     {
         return $this->hasMany(Cart::class);
+    }
+    public function syncTags($productId)
+    {
+        // $tagsId = collect(explode(",", $tagString))  // sea,fire => collect(['sea', 'fire'])
+        // ->filter()
+        // ->map(function($tag){
+        //     $tagsObj = Tag::firstOrCreate([
+        //         'name' => trim($tag),
+        //         'slug' => str($tag)->slug(),
+        //     ]);
+        //     return $tagsObj->id;
+        // }); // => [1,7]
+        $this->products()->sync($productId);
     }
 }
