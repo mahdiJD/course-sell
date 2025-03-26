@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Role;
 use App\Enums\Status;
 use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
-use Filament\Forms;
+use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -14,21 +14,32 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
+    protected static ?string $modelLabel = 'دوره ها';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'دوره های من';
 
+    public static function getNavigationLabel(): string
+    {
+        return in_array(
+            User::find(auth()->id())->role,
+            [
+                Role::Editor->value,
+                Role::Root->value,
+            ]
+        ) ? 'دوره ها' : static::$navigationLabel;
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -65,9 +76,19 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(self::getFilteredQuery())
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('published_at'),
+                ImageColumn::make('file')
+                    // ->disk('local')
+                    ->height(200)
+                    ->width(200)->circular(),
+                TextColumn::make('name')
+                    ->description(fn (Product $record): string|null => $record->bio)
+                    ->wrap()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('published_at')
+                    ->sortable(),
                 TextColumn::make('status')
                     ->badge()
                     ->color(function ($state,$record){
@@ -86,8 +107,13 @@ class ProductResource extends Resource
                             Status::Stop => 'danger',
                             default => 'gray',
                         };
-                    }),
-                TextColumn::make('price'),
+                    })
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('price')
+                    ->sortable(),
+                // TextColumn::make('bio')
+
             ])
             ->filters([
                 //
@@ -102,6 +128,28 @@ class ProductResource extends Resource
             ]);
     }
 
+    protected static function getFilteredQuery(): Builder
+    {
+        $user = auth()->user();
+
+        return match ($user->role) {
+            Role::Student->value => self::getStudentCoursesQuery($user->id),
+            Role::Teacher->value => Product::query()->where('user_id', $user->id),
+            Role::Editor->value  => Product::query(),
+            Role::Root->value  => Product::query(),
+            // default   => Product::query()->whereNull('id'), // No courses for unknown roles
+        };
+    }
+    protected static function getStudentCoursesQuery(int $userId): Builder
+    {
+        return Product::query()
+            ->whereIn('id', function ($query) use ($userId) {
+                $query->select('product_id')
+                    ->from('order_items')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.user_id', $userId);
+            });
+    }
     public static function getRelations(): array
     {
         return [

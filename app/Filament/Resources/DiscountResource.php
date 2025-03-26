@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Role;
 use App\Filament\Resources\DiscountResource\Pages;
 use App\Filament\Resources\DiscountResource\RelationManagers;
 use App\Models\Discount;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
@@ -20,6 +22,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class DiscountResource extends Resource
 {
     protected static ?string $model = Discount::class;
+    protected static ?string $modelLabel = 'کد تخفیف';
+    protected static ?string $navigationLabel = 'کد تخفیف';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -76,10 +80,29 @@ class DiscountResource extends Resource
 
     public static function getPages(): array
     {
+        // 'filament.panel.resources.discounts.index'
+        // in_array(
+        //     User::find(auth()->id())->role,
+        //     [
+        //         Role::Editor->value,
+        //         Role::Root->value,
+        //     ]
+        // ) ? 'دوره ها' : static::$navigationLabel;
         return [
             'index' => Pages\ListDiscounts::route('/'),
             'create' => Pages\CreateDiscount::route('/create'),
             'edit' => Pages\EditDiscount::route('/{record}/edit'),
         ];
+    }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return in_array(
+                User::find(auth()->id())->role,
+                [
+                    Role::Editor->value,
+                    Role::Root->value,
+                ]
+                );
+
     }
 }

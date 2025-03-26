@@ -24,6 +24,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'پروفایل کاربری';
+    protected static ?string $modelLabel = 'کاربر';
 
     public static function getNavigationLabel(): string
     {
@@ -42,6 +43,9 @@ class UserResource extends Resource
                 TextInput::make('name'),
                 TextInput::make('bio'),
                 TextInput::make('email')
+                    ->email()
+                    ->unique(ignoreRecord: true),
+                TextInput::make('mobile')
                     ->email()
                     ->unique(ignoreRecord: true),
                 Select::make('role')->options(function(){
@@ -66,7 +70,6 @@ class UserResource extends Resource
                         return $result;
                     }
                     return null;
-
                 })
             ]);
     }
@@ -75,8 +78,21 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                    ->color(function ($record){
+                        if($record->id == auth()->id()) return 'success';
+                    }),
                 TextColumn::make('email')
+                    ->color(function ($record){
+                        if($record->id == auth()->id()) return 'success';
+                    }),
+                TextColumn::make('role')->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        Role::Student->value => 'gray',
+                        Role::Teacher->value => 'success',
+                        Role::Editor->value => 'warning',
+                        Role::Root->value => 'danger',
+                    })
 
             ])
             ->filters([
