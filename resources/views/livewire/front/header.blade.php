@@ -33,19 +33,42 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link" href="{{route('courses')}}">لیست دوره ها</a>
 					</li>
+
 					<li class="nav-item dropdown">
 						<a class="nav-link" href="#">درباره ما</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link" href="#">تماس با ما</a>
 					</li>
-                    <li class="nav-item dropdown">
-                        {{-- <livewire:cart-dropdown /> --}}
 
-					</li>
+                    <div class = "nav-item dropdown">
+
+                        <a class = "btn dropdown-toggle btn-secondary rounded" id = "dropdownMenu1" data-toggle = "dropdown">
+                            🛒  سبد خرید
+                            <span class="absolute top-0 right-0 bg-red-500 text-xs px-2 py-1 rounded-full">
+                                {{ count($cartItems) }}
+                            </span>
+                        </a>
+
+                        <ul class = "dropdown-menu" role = "menu" aria-labelledby = "dropdownMenu1">
+
+                            <h3 class="text-sm font-semibold mb-2">محصولات در سبد</h3>
+                            @forelse($cartItems as $item)
+                                <div class="flex justify-between border-b py-2 bg-blue-400">
+                                    <span>{{ $item->getProduct()->name }}</span>
+                                </div>
+                            @empty
+                                <p class="text-gray-500">سبد خرید شما خالی است.</p>
+                            @endforelse
+                            @if (!empty($cartItems))
+                            <a href="{{route('order')}}" class="btn btn-secondary">رفتن به تصفیه حساب</a>
+                            @endif
+
+                        </ul>
+                    </div>
 
 				</ul>
-                <div class="relative">
+                {{-- <div class="relative">
                     <button wire:click="toggleDropdown" class="btn btn-secondary relative  rounded">
                         🛒 سبد خرید
                         <span class="absolute top-0 right-0 bg-red-500 text-xs px-2 py-1 rounded-full">
@@ -60,7 +83,7 @@
                                 <div class="flex justify-between border-b py-2">
                                     <span>{{ $item->getProduct()->name }}</span>
                                     {{-- <span>{{ $item->price }} تومان</span> --}}
-                                </div>
+                                {{--</div>
                             @empty
                                 <p class="text-gray-500">سبد خرید شما خالی است.</p>
                             @endforelse
@@ -69,7 +92,8 @@
                             @endif
                         </div>
                     @endif
-                </div>
+                </div> --}}
+
 
 				<!-- Nav Main menu END -->
 
