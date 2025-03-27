@@ -35,7 +35,7 @@ class EditUser extends EditRecord
                     Role::Editor->value,
                     Role::Root->value,
                 ]
-            ), 403);
+            ) || auth()->id() == $this->record->id, 403);
     }
     public function mount(int | string $record): void
     {
