@@ -27,7 +27,7 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
     protected static ?string $modelLabel = 'دوره ها';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
     protected static ?string $navigationLabel = 'دوره های من';
 
     public static function getNavigationLabel(): string
