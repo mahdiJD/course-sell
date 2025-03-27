@@ -41,7 +41,6 @@ class UserResource extends Resource
                     ->email()
                     ->unique(ignoreRecord: true),
                 TextInput::make('mobile')
-                    ->email()
                     ->unique(ignoreRecord: true),
                 Select::make('role')->options(function(){
                     $permision = in_array(
