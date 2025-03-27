@@ -9,7 +9,8 @@ class SmsCode extends Model
 {
     protected $fillable = [
         'mobile',
-        'code'
+        'code',
+        'updated_at'
     ];
     public static function checkTowMin($mobile){
         $check = self::query()->where('mobile',$mobile)->

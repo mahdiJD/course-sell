@@ -4,12 +4,14 @@ use App\Http\Controllers\ProfileController;
 use App\Enums\Status;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SmsController;
 use App\Livewire\Front\CourseDetaile;
 use App\Livewire\Front\Courses;
 use App\Livewire\Front\Home;
 use App\Livewire\Order;
 use App\Livewire\ProductComponent;
 use App\Models\Cart;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,12 +21,9 @@ Route::get('/courses_detaile/{product:slug}',CourseDetaile::class)->name('course
 // Route::get('products',ProductComponent::class);
 Route::get('/check-out',Order::class)->name('order');
 Route::get('/tst',function(){
-    dd(Cart::find(1)->product()->get()->first()->name);
-    // dd(route('pay_api'));
-    // $cart = Cart::where('user_id',auth()->id())->product()->get();
-            // foreach($cart as $orderItem){
-                // dd($cart);
-            // }
+    // dd(Cart::find(1)->product()->get()->first()->name);
+    // $u = User::find(1);
+    // return $u->update(['verify_at' => null]);
 });
 Route::post('/invoce',[OrderController::class,'payment'])->name('invoce');
 Route::post('/callback',[OrderController::class,'callBack'])->name('pay_back');
@@ -37,6 +36,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/verify-num',[SmsController::class,'show'])->name('verify.mobile.show');
+    Route::post('/verify-num',[SmsController::class,'check'])->name('verify.mobile.check');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
